@@ -58,11 +58,11 @@ for lid in litsids:
     lblpath = os.path.join(data_root, 'segmentation-'+str(lid)+'.nii')
     img_lbl_pairs.append([lid, imgpath, lblpath])
 
-bar = progressbar.ProgressBar(len(img_lbl_pairs)).start()
+# bar = progressbar.ProgressBar(len(img_lbl_pairs)).start()
 # patch_save_root = './data'
 for step, [lid, imgpath, lblpath] in enumerate(img_lbl_pairs):
     sample_patches(lid, imgpath, lblpath)
-    bar.update(step+1)
+#    bar.update(step+1)
 
 
 """
