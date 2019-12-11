@@ -72,7 +72,7 @@ for epoch in range(100):
 
     #saves the training loss
     loss1 = []
-    loss1 = np.append(epoch_loss)
+    loss1 = np.append(loss1, epoch_loss)
 
     for param in net.parameters():
         param.requires_grad = False
@@ -96,7 +96,7 @@ for epoch in range(100):
 
     #saves the validation loss
     loss2 = []
-    loss2 = np.append(epoch_loss)
+    loss2 = np.append(loss2, epoch_loss)
 
 #Save the ipynb
 np.save('trainloss.npy', loss1)
