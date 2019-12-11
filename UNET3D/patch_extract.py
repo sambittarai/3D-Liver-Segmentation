@@ -49,13 +49,12 @@ def sample_patches(lid, imgpath, lblpath):
     lbl_arr_cp = np.pad(lbl_arr_cp, ((100,100),(100,100),(100,100)), mode = 'constant')
     lbl_arr_cp -= 1
     
-    #?
+    #Getting the crops for liver class and non-liver class
     class1_locs = uniform_sample(lbl_arr_cp == 0, 50)
     class2_locs = uniform_sample(lbl_arr_cp == 1, 50)
 #     print(' class 1, class 2 :', len(class1_locs), len(class2_locs))
     locs = class1_locs[:5] + class2_locs[:45]
     random.shuffle(locs)
-    #?
     
     patch_size, lbl_size = [116, 132, 132], [28, 44, 44]
     liver_pixel_count = {}
@@ -99,3 +98,4 @@ for lid in listids:
     img_lbl_pairs.append()
 pool = mp.Pool(3)
 """
+

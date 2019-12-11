@@ -47,13 +47,17 @@ def extract_patch(image, loc, patch_size):
     image_patch = image[lx-_px:lx+px_,ly-_py:ly+py_,lz-_pz:lz+pz_]
     return image_patch
 
+watch - 
 
 def resample(
     image, output_spacing, interpolator=sitk.sitkLinear, default_value=0
 ):
     """
-    image : sitk Image
+    Parameters:
+        image : sitk image (object)
+    
     """
+    #Returns the size of the image (which is a sitk object)
     input_size = image.GetSize()
     input_spacing = image.GetSpacing()
     output_size = [0.0, 0.0, 0.0]
