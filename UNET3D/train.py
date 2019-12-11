@@ -69,6 +69,11 @@ for epoch in range(100):
         del inputs, labels, outputs
     epoch_loss = tr_loss/lentrnloader
     print('Training loss: {:.4f}'.format(epoch_loss))
+
+    #saves the training loss
+    loss1 = []
+    loss1 = np.append(epoch_loss)
+
     for param in net.parameters():
         param.requires_grad = False
     if epoch % 10 == 0:
@@ -88,3 +93,12 @@ for epoch in range(100):
         del inputs, labels, outputs
     epoch_loss = val_loss/lenvalloader
     print('Validation loss: {:.4f}'.format(epoch_loss))
+
+    #saves the validation loss
+    loss2 = []
+    loss2 = np.append(epoch_loss)
+
+#Save the ipynb
+np.save('trainloss.npy', loss1)
+np.save('valloss.npy', loss2)
+
