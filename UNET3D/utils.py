@@ -3,7 +3,7 @@ import SimpleITK as sitk
 
 def uniform_sample(bool_arr, max_locs):
 	shape = bool_arr.shape
-	if np.sum(bool_arr)/np.prod(shape) < 5e-5:
+	if np.sum(bool_arr)/np.prod(shape) < 5e-7:
 		return []
 	locs = []
 	while True:
