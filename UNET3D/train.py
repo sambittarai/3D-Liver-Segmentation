@@ -7,7 +7,7 @@ os.environ['CUDA_VISIBLE_DEVICES']='5,6'
 from unet3d import UNet
 import tqdm
 from torch.utils.data import DataLoader, Dataset, random_split
-from datasets import LiverDatasetRandom, LiverDatasetFixed
+#from datasets import LiverDatasetRandom, LiverDatasetFixed
 import progressbar
 
 from torch.utils.data import Dataset, DataLoader
