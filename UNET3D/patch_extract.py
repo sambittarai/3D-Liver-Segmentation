@@ -41,8 +41,8 @@ def sample_patches(lid, imgpath, lblpath):
     label = sitk.ReadImage(lblpath)
     label = resample(label, (1.0, 1.0, 1.0), interpolator = sitk.sitkNearestNeighbor)
     lbl_arr = sitk.GetArrayFromImage(label)
-    lbl_arr[lbl_arr == 2] = 1
-    lbl_arr = np.uint8(snd.zoom(lbl_arr, zoom = (0.5, 0.5, 0.5), order = 0))
+    #lbl_arr[lbl_arr == 2] = 1
+    lbl_arr = np.int16(snd.zoom(lbl_arr, zoom = (0.5, 0.5, 0.5), order = 0))
     #Copies the content of 'lbl_arr' and adds '1' to it
     lbl_arr_cp = lbl_arr.copy() + 1
     lbl_arr = np.pad(lbl_arr, ((100,100),(100,100),(100,100)), mode = 'constant')
@@ -52,8 +52,18 @@ def sample_patches(lid, imgpath, lblpath):
     #Getting the crops for liver class and non-liver class
     class1_locs = uniform_sample(lbl_arr_cp == 0, 50)
     class2_locs = uniform_sample(lbl_arr_cp == 1, 50)
-#     print(' class 1, class 2 :', len(class1_locs), len(class2_locs))
-    locs = class1_locs[:5] + class2_locs[:45]
+    class3_locs = uniform_sample(lbl_arr_cp == 2, 50)
+
+    z = (lbl_arr_cp == 2)
+    print("lbl_arr_cp == 2: ", np.sum(z)/np.prod(z.shape))
+    print(' class 1, class 2, class 3 :', len(class1_locs), len(class2_locs), len(class3_locs))
+    
+    if len(class3_locs) == 0:
+        locs = class1_locs[:5] + class2_locs[:45]
+
+    else:
+        locs = class3_locs[:50]
+
     random.shuffle(locs)
     
     patch_size, lbl_size = [116, 132, 132], [28, 44, 44]
@@ -98,4 +108,4 @@ for lid in listids:
     img_lbl_pairs.append()
 pool = mp.Pool(3)
 """
-
+print("Done")
