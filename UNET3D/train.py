@@ -37,7 +37,10 @@ trnloader = DataLoader(trndset, batch_size = 2, shuffle = True, num_workers = 2)
 valloader = DataLoader(valdset, batch_size = 2, shuffle = False, num_workers = 2)
 
 device = torch.device('cuda')
-net = UNet(n_class = 2);
+
+#Decides number of output classes
+#net = UNet(n_class = 2);
+net = UNet(n_class = 3);
 n_gpu = torch.cuda.device_count()
 net = nn.DataParallel(net, device_ids = list(range(n_gpu)))
 net.to(device);
