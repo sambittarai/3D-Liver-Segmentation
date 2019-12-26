@@ -33,8 +33,8 @@ img_lbl_pairs = [(f, f.replace('input', 'label')) for f in img_files]
 dset = LiverDataset(img_lbl_pairs)
 dsetlen = len(dset)
 trndset, valdset = random_split(dset, [int(0.9*dsetlen), int(0.1*dsetlen)])
-trnloader = DataLoader(trndset, batch_size = 2, shuffle = True, num_workers = 2)
-valloader = DataLoader(valdset, batch_size = 2, shuffle = False, num_workers = 2)
+trnloader = DataLoader(trndset, batch_size = 1, shuffle = True, num_workers = 2)
+valloader = DataLoader(valdset, batch_size = 1, shuffle = False, num_workers = 2)
 
 device = torch.device('cuda')
 
@@ -46,10 +46,18 @@ net = nn.DataParallel(net, device_ids = list(range(n_gpu)))
 net.to(device);
 
 optimizer = optim.Adam(net.parameters(), lr=1e-4, weight_decay=5e-5)
-criterion = nn.CrossEntropyLoss()
+#criterion = nn.CrossEntropyLoss()
+weights = torch.tensor([1,1,10], dtype = torch.float)
+weights = weights.to(device)
+
+criterion = nn.NLLLoss(weight = weights, reduction='mean')
 
 lentrnloader, lenvalloader = len(trnloader), len(valloader)
 print('Total : ', lentrnloader + lenvalloader)
+
+loss1 = []
+loss2 = []
+
 for epoch in range(100):
     print('Epoch : ', epoch)
     tr_loss = 0
@@ -73,15 +81,29 @@ for epoch in range(100):
     epoch_loss = tr_loss/lentrnloader
     print('Training loss: {:.4f}'.format(epoch_loss))
 
-    #saves the training loss
-    loss1 = []
+    #appends the training loss
     loss1 = np.append(loss1, epoch_loss)
 
     for param in net.parameters():
         param.requires_grad = False
-    if epoch % 10 == 0:
+    if epoch % 5 == 0:
         model_save_file = os.path.join('./models', 'model_epoch{}.bin'.format(epoch))
         torch.save(net.module.state_dict(), model_save_file)
+
+    #saves the losses after every 2 epochs
+    if epoch % 2 == 0:
+        loss_file1 = os.path.join('./loss', 'loss1_{}.npy'.format(epoch))
+        np.save(loss_file1, loss1)
+        loss_file2 = os.path.join('./loss', 'loss2_{}.npy'.format(epoch))
+        np.save(loss_file2, loss2)
+
+    #saves the model if validation loss decreases
+    if epoch != 0:
+        temp1 = np.argmin(loss2)
+        if temp1 == epoch:
+            model_save_file = os.path.join('./models_new', 'model_epoch{}.bin'.format(epoch))
+            torch.save(net.module.state_dict(), model_save_file)
+
     valiter = iter(valloader)
     val_loss = 0
     net.eval()
@@ -97,8 +119,7 @@ for epoch in range(100):
     epoch_loss = val_loss/lenvalloader
     print('Validation loss: {:.4f}'.format(epoch_loss))
 
-    #saves the validation loss
-    loss2 = []
+    #appends the validation loss
     loss2 = np.append(loss2, epoch_loss)
 
 #Save the ipynb
