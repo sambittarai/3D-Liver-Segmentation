@@ -42,7 +42,8 @@ def sample_patches(lid, imgpath, lblpath):
     label = resample(label, (1.0, 1.0, 1.0), interpolator = sitk.sitkNearestNeighbor)
     lbl_arr = sitk.GetArrayFromImage(label)
     #lbl_arr[lbl_arr == 2] = 1
-    lbl_arr = np.int16(snd.zoom(lbl_arr, zoom = (0.5, 0.5, 0.5), order = 0))
+    lbl_arr = np.uint8(snd.zoom(lbl_arr, zoom = (0.5, 0.5, 0.5), order = 0))
+    #lbl_arr = np.int16(snd.zoom(lbl_arr, zoom = (0.5, 0.5, 0.5), order = 0))
     #Copies the content of 'lbl_arr' and adds '1' to it
     lbl_arr_cp = lbl_arr.copy() + 1
     lbl_arr = np.pad(lbl_arr, ((100,100),(100,100),(100,100)), mode = 'constant')
