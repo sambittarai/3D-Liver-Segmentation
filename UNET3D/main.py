@@ -101,4 +101,3 @@ for epoch in range(100):
 #Save the ipynb
 np.save('trainloss.npy', loss1)
 np.save('valloss.npy', loss2)
-
