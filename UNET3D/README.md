@@ -8,7 +8,7 @@ This repository contains code to train a unet3d for liver segmentation.
 3. Python >= 3.5
 
 
-## Steps to train your own model : 
+## Steps to train the model : 
 #### Extract patches for unet3d training 
 1. Create `models` and `data` directories in the training folder 
 2. Set `data_root` in patch_extract.py to your location of LITS training data and run `python3 patch_extract.py`
