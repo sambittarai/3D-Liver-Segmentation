@@ -16,7 +16,6 @@ def uniform_sample(bool_arr, max_locs):
 			break
 	return locs
 
-
 def adjust_center_for_boundaries( center, patch_size, shape):
     cx, cy, cz = center
     px, py, pz = patch_size
@@ -38,7 +37,6 @@ def adjust_center_for_boundaries( center, patch_size, shape):
         cz = sz - pz_
 
     return cx, cy, cz
-
 
 def extract_patch(image, loc, patch_size):
     px, py, pz = patch_size
