@@ -17,9 +17,8 @@ class BasicVolumeIterator(object):
 	def get_patch(self):
 		c = self.coords
 		ps = self.patch_size
-		patch = self.vol_array[	c[0]:c[0] + ps[0],
-								c[1]:c[1] + ps[1],
-								c[2]:c[2] + ps[2]]
+		patch = self.vol_array[	c[0]:c[0] + ps[0], c[1]:c[1] + ps[1], c[2]:c[2] + ps[2]]
+								
 		return patch
 
 	def set_patch(self, patch):
