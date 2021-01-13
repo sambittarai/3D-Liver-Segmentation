@@ -3,7 +3,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-os.environ['CUDA_VISIBLE_DEVICES']='5,6'
+os.environ['CUDA_VISIBLE_DEVICES']='1,2,4'
+#os.environ['CUDA_VISIBLE_DEVICES']='5,6'
 from unet3d import UNet
 import tqdm
 from torch.utils.data import DataLoader, Dataset, random_split
